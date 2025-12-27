@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>家常菜谱大全（120道）</title>
+    <style>
+        /* 基础样式，让页面更美观 */
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .initial-group {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .initial-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .recipe-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+        }
+        .recipe-item {
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .recipe-item a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+        .recipe-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        .initial-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .initial-nav a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #0275d8;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .initial-nav a:hover {
+            background-color: #025aa5;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #333; margin-bottom: 30px;">家常菜谱大全（120道）</h1>
+
+    <!-- 首字母导航栏（快速定位） -->
+    <div class="initial-nav">
+        {% for initial in initials %}
+            <a href="#{{ initial }}">{{ initial }}</a>
+        {% endfor %}
+    </div>
+
+    <!-- 按首字母分组展示菜品 -->
+    {% for initial in initials %}
+        <div class="initial-group" id="{{ initial }}">
+            <div class="initial-title">首字母 {{ initial }}</div>
+            <ul class="recipe-list">
+                {% for recipe in recipe_groups[initial] %}
+                    <li class="recipe-item">
+                        <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}">
+                            {{ recipe.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>
